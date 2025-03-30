@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div id="google_translate_element"></div>
+
+        <script type="text/javascript">
+        function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+        </script>
+
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <div class="auth-buttons">
+            <a href="/" class="btn login-btn">Login</a>
+            <a href="/signin" class="btn signup-btn">Sign Up</a>
+        </div>
+    </header>
+    <section>
+        <div class="container">
+            <h1 style="font-size: 60px">Sube Tus Sueño - Raise your Dreams</h1>
+        </div>
+    </section>
+    <section>
+        <div class="bubblegrid">
+            <div class="bubble">
+                <h2>About Us</h2>
+                <p>This website is to help first-gen scholars on their college journey</p>
+            </div>
+            <div class="bubble">
+                <h2>Events</h2>
+                <p>Check out our events page to see what we have going on!</p>
+            </div>
+            <div class="bubble">
+                <h2>Resources</h2>
+                <p>We have a ton of resources to help you on your journey!</p>
+            </div>
+            <div class="bubble">
+                <h2>Scholarships</h2>
+                <p>We have a ton of scholarships to help you pay for college!</p>
+            </div>
+            <div class="bubble">
+                <h2>Mentorship</h2>
+                <p>We have a ton of mentors to help you on your journey!</p>
+            </div>
+            <div class="bubble">
+                <h2>Networking</h2>
+                <p>We have a ton of networking opportunities to help you on your journey!</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="bubblegrid">
+            <div class="bubble">
+                <h2>Chatroom</h2>
+                <p>Live texting with other users</p>
+                <!-- Corrected form -->
+                <form action="{{ url_for('room') }}" method="POST">
+                    <button type="submit" class="button">Go Chat!</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <footer >+
+        <hr width="100%">
+        <h3>Contact Us</h3>
+        <p>Number: (123)-456-SHPE</p>
+        <p>Email: thisnotreal@gmail.com</p>
+    </footer>
+
+    <!-- Chatbot Button -->
+    <button id="chatbot-button">💬</button>
+
+     <!-- Chatbot Popup -->
+    <div id="chatbot-popup">
+        <div id="chatbot-header">AI Chatbot</div>
+        <div id="chatbot-messages"></div>
+        <div id="chatbot-input-container">
+            <input type="text" id="chatbot-input" placeholder="Type your message here...">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle chatbot interactions
+        const chatbotButton = document.getElementById("chatbot-button");
+        const chatbotPopup = document.getElementById("chatbot-popup");
+        const chatbotMessages = document.getElementById("chatbot-messages");
+        const chatbotInput = document.getElementById("chatbot-input");
+        const chatbotSend = document.getElementById("chatbot-send");
+
+        // Toggle chatbot popup visibility
+        chatbotButton.addEventListener("click", () => {
+            chatbotPopup.style.display = chatbotPopup.style.display === "none" ? "flex" : "none";
+        });
+
+        // Handle sending messages
+        chatbotSend.addEventListener("click", async () => {
+            const userMessage = chatbotInput.value.trim();
+            if (!userMessage) return;
+
+            // Display user message
+            const userMessageElement = document.createElement("div");
+            userMessageElement.textContent = `YOU: ${userMessage}`;
+            chatbotMessages.appendChild(userMessageElement);
+
+            // Clear input field
+            chatbotInput.value = "";
+
+            // Send message to backend
+            const response = await fetch("/chatbot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: userMessage })
+            });
+
+            const data = await response.json();
+
+            // Display chatbot response
+            const botMessageElement = document.createElement("div");
+            botMessageElement.textContent = `AI CHATBOT: ${data.response}`;
+            chatbotMessages.appendChild(botMessageElement);
+
+            // Scroll to the bottom of the messages
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        });
+    </script>
+</body>
+</html>

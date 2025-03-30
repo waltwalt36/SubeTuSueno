@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<form id="chatForm" method="post">
+    <h3>Enter the Chat Room!</h3>
+    <div>
+        <label>Name:</label>
+        <input 
+            type="text" 
+            placeholder="What's your name?" 
+            name="name" 
+            id="name"
+            value="{{ name }}"
+        />
+    </div>
+    <div class="join">
+        <input 
+            type="text" 
+            placeholder="Room Code" 
+            name="code" 
+            id="code"
+            value="{{ code }}"
+        />
+        <button type="button" id="joinRoomButton">Join a Room</button>
+    </div>
+    <button type="submit" name="create">Create a Room</button>
+</form>
+
+<script>
+    document.getElementById("joinRoomButton").addEventListener("click", function () {
+        const name = document.getElementById("name").value.trim();
+        const code = document.getElementById("code").value.trim();
+
+        // Validate inputs
+        if (!name || !code) {
+            alert("Please fill in both fields.");
+            return;
+        }
+
+        // Submit the form programmatically
+        const form = document.getElementById("chatForm");
+        form.submit();
+    });
+</script>
+{% endblock %}

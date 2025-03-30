@@ -1,0 +1,38 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Chatbot</title>
+    <script>
+        async function sendPrompt() {
+            const userPrompt = document.getElementById("userPrompt").value;  // Get user input
+            const response = await fetch("/chatbot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: userPrompt })  // Send input to the backend
+            });
+            const data = await response.json();
+            if (data.response) {
+                document.getElementById("chatResponse").innerText = data.response;  // Display the response
+            } else {
+                document.getElementById("chatResponse").innerText = "Error: " + data.error;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Juan AI</h1>
+    <div>
+        <label for="userPrompt">Enter your prompt:</label>
+        <input type="text" id="userPrompt" placeholder="What do you want to learn?" />
+        <button onclick="sendPrompt()">Submit</button>
+    </div>
+    <div>
+        <h2>Response:</h2>
+        <p id="chatResponse"></p>
+    </div>
+</body>
+</html> -->

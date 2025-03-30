@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!---<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">--->
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    const errorElement = document.getElementById('loginError');
+                    
+                    // Clear previous errors
+                    errorElement.textContent = '';
+                    
+                    if (!username || !password) {
+                        e.preventDefault(); // Prevent form submission
+                        errorElement.textContent = 'Please fill in all fields';
+                    }
+                    // Let the form submit normally if validation passes
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="h1Login">Login</h1>
+        <h1 class="subeTuSueno-login">Sube Tu Sueño</h1>
+        <form id = "loginform" method ="POST" action="{{ url_for('login') }}">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username">
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+
+            <div id="loginError" class="error-message"></div>
+            {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+            <button type="submit" class="button">Login</button>
+            <p class="textunderlogin">Don't have an account? <a href="/signin" class="signup-link">sign up</a></p>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatroom.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+
+        // Join the room when the page loads
+        window.onload = () => {
+            const name = "{{ name }}";
+            const room = "{{ room }}";
+            socket.emit("join", { username: name, room: room });
+        };
+
+        // Listen for messages
+        socket.on("message", (data) => {
+            const messages = document.getElementById("messages");
+            const message = document.createElement("li");
+            message.textContent = data;
+            messages.appendChild(message);
+        });
+
+        // Send a message
+        function sendMessage() {
+            const messageInput = document.getElementById("message");
+            const message = messageInput.value;
+            const room = "{{ room }}";
+            socket.emit("message", { room: room, message: message });
+            messageInput.value = "";
+        }
+    </script>
+</head>
+<body>
+    <section>
+        <div class="container">
+            <h1>Welcome to Room: {{ room }}</h1>
+        </div>
+        <div class="bubblegrid">
+            <div class="bubble">
+                <!--<h2>Hello, {{ name }}!</h2>-->
+                <h2> Hello, User!</h2>
+                <h3>Chat History</h3>
+                <ul id="messages"></ul>
+                <input type="text" id="message" placeholder="Type your message here">
+                <button onclick="sendMessage()" class="button">Send</button>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
